@@ -1,0 +1,29 @@
+html,
+body,
+#app {
+  height: 100%;
+}
+
+.page-wrapper {
+  background: var(--dark-blue);
+  color: var(--pure-white);
+  min-height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.container {
+  max-width: 1440px;
+  width: 100%;
+}
+
+body,
+input,
+button {
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.2;
+}
