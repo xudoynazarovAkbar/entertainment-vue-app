@@ -10,7 +10,7 @@ export function normalizeMovieData(movie: IMovieRaw): IMovieNormalized {
     movieInfo: {
       year: movie.year,
       extraInfo: movie.rating,
-      category: movie.category === 'Movie' ? 'movie' : 'tvSeries',
+      category: movie.category,
     },
   }
 }

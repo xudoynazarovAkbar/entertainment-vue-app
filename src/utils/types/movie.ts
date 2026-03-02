@@ -1,4 +1,4 @@
-export type CategoryNormalizedType = 'movie' | 'tvSeries'
+import { type CategoryType } from './category'
 
 export interface IMovieNormalized {
   id: string
@@ -7,13 +7,11 @@ export interface IMovieNormalized {
   isBookmarked: boolean
   isTrending: boolean
   movieInfo: {
-    category: CategoryNormalizedType
+    category: CategoryType
     year: number
     extraInfo: string
   }
 }
-
-export type CategoryRawType = 'Movie' | 'TV Series'
 
 export interface IMovieRaw {
   thumbnail: {
@@ -26,7 +24,7 @@ export interface IMovieRaw {
   _id: string
   title: string
   year: number
-  category: CategoryRawType
+  category: CategoryType
   rating: string
   isBookmarked: boolean
   isTrending: boolean

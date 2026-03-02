@@ -1,10 +1,10 @@
 import { useMovies } from '@/api/queries/useMovies'
-import type { CategoryNormalizedType } from '@/utils/types/movie'
+import type { CategoryType } from '@/utils/types/category'
 import { searchQuery } from '@/composables/useSearch'
 import { computed } from 'vue'
 
 export function useMoviesView(options: {
-  category?: CategoryNormalizedType
+  category?: CategoryType
   onlyBookmarked?: boolean
   title?: string
 }) {
