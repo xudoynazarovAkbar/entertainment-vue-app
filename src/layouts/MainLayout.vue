@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import SideBar from '@/components/widgets/SideBar.vue'
-import SearchInput from '@/components/features/SearchInput.vue'
+import SearchInput from '@/components/shared/SearchInput.vue'
 import { searchQuery } from '@/composables/useSearch'
 </script>
 
