@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import MoviesList from '@/components/widgets/MoviesList/MoviesList.vue'
 import { useMoviesView } from '@/composables/useMoviesView'
+import { MOVIE_CATEGORY, TV_SERIES_CATEGORY } from '@/utils/constants/category'
 
 const movies = useMoviesView({
-  category: 'movie',
+  category: MOVIE_CATEGORY,
   title: 'Bookmarked Movies',
   onlyBookmarked: true,
 })
 const tvSeries = useMoviesView({
-  category: 'tvSeries',
+  category: TV_SERIES_CATEGORY,
   title: 'Bookmarked TV Series',
   onlyBookmarked: true,
 })

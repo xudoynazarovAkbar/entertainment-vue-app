@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import MovieIcon from '@/assets/icons/nav/movies.svg'
-import TvSeriesIcon from '@/assets/icons/nav/tv-series.svg'
-import type { CategoryNormalizedType } from '@/utils/types/movie'
+import { CATEGORY_MAP } from '@/utils/constants/category'
+import type { CategoryType } from '@/utils/types/category'
 
 defineOptions({
   name: 'MovieInfo',
@@ -14,21 +13,10 @@ const {
   type = 'small',
 } = defineProps<{
   type: 'large' | 'small'
-  category: CategoryNormalizedType
+  category: CategoryType
   year: number
   extraInfo: string
 }>()
-
-const CATEGORY_MAP = {
-  movie: {
-    icon: MovieIcon,
-    label: 'Movie',
-  },
-  tvSeries: {
-    icon: TvSeriesIcon,
-    label: 'TV Series',
-  },
-} as const
 
 const categoryInfo = CATEGORY_MAP[category]
 </script>

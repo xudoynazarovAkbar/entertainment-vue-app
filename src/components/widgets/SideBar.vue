@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import NavBar from '../features/NavBar.vue'
+import NavBar from '../shared/NavBar.vue'
 import Logo from '@/assets/icons/logo.svg'
 import UserIcon from '@/assets/icons/user.svg'
 import { ref } from 'vue'

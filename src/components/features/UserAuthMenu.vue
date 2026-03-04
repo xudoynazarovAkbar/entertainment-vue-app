@@ -1,76 +1,13 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { loginUser, registerUser } from '@/api/services/users.api'
-import { useRouter } from 'vue-router'
-import { useAuth } from '@/composables/useAuth'
-
-const router = useRouter()
-const { setToken } = useAuth()
+import { ref } from 'vue'
+import UserRegister from './UserRegister.vue'
+import UserLogin from './UserLogin.vue'
 
 const activeTab = ref<'signin' | 'login'>('signin')
-
-const showPasswordSignIn = ref(false)
-const showPasswordLogin = ref(false)
-
 const isLoading = ref(false)
-const buttontext = computed(() => {
-  if (isLoading.value) {
-    return activeTab.value === 'signin' ? 'Creating...' : 'Logging in...'
-  }
-  return activeTab.value === 'signin' ? 'Create Account' : 'Log In'
-})
-
-const firstName = ref('')
-const lastName = ref('')
-const email = ref('')
-const password = ref('')
-
-function resetForm() {
-  firstName.value = ''
-  lastName.value = ''
-  email.value = ''
-  password.value = ''
-}
 
 function handleTabChange(tab: 'signin' | 'login') {
   activeTab.value = tab
-  resetForm()
-}
-
-async function handleLoginSubmit() {
-  isLoading.value = true
-
-  try {
-    const response = await loginUser({
-      email: email.value,
-      password: password.value,
-    })
-
-    setToken(response.token)
-    router.push('/')
-  } catch {
-    console.log('Error happened inside submit')
-  } finally {
-    isLoading.value = false
-  }
-}
-
-async function handleRegisterSubmit() {
-  isLoading.value = true
-
-  try {
-    const response = await registerUser({
-      full_name: `${firstName.value} ${lastName.value}`,
-      email: email.value,
-      password: password.value,
-    })
-    setToken(response.token)
-    router.push('/')
-  } catch {
-    console.log('Error happened inside submit')
-  } finally {
-    isLoading.value = false
-  }
 }
 </script>
 
@@ -84,7 +21,6 @@ async function handleRegisterSubmit() {
       >
         Sign in
       </button>
-
       <button
         :class="['tab', { active: activeTab === 'login' }]"
         :disabled="isLoading"
@@ -94,71 +30,16 @@ async function handleRegisterSubmit() {
       </button>
     </div>
 
-    <form
+    <UserRegister
       v-if="activeTab === 'signin'"
-      class="form"
-      @submit.prevent="handleRegisterSubmit"
-    >
-      <MyInput
-        label="First Name"
-        v-model="firstName"
-      />
-      <MyInput
-        label="Last Name"
-        v-model="lastName"
-      />
-      <MyInput
-        label="Email"
-        type="email"
-        v-model="email"
-      />
-
-      <MyInput
-        label="Password"
-        :type="showPasswordSignIn ? 'text' : 'password'"
-        v-model="password"
-      >
-        <div @click="showPasswordSignIn = !showPasswordSignIn">
-          {{ showPasswordSignIn ? 'EyeOff' : 'EyeOn' }}
-        </div>
-      </MyInput>
-
-      <button
-        class="submit"
-        :disabled="isLoading"
-      >
-        {{ buttontext }}
-      </button>
-    </form>
-
-    <form
+      :isLoading="isLoading"
+      @update:isLoading="isLoading = $event"
+    />
+    <UserLogin
       v-else
-      class="form"
-      @submit.prevent="handleLoginSubmit"
-    >
-      <MyInput
-        label="Email"
-        type="email"
-        v-model="email"
-      />
-
-      <MyInput
-        label="Password"
-        :type="showPasswordLogin ? 'text' : 'password'"
-        v-model="password"
-      >
-        <div @click="showPasswordLogin = !showPasswordLogin">
-          {{ showPasswordLogin ? 'EyeOff' : 'EyeOn' }}
-        </div>
-      </MyInput>
-
-      <button
-        class="submit"
-        :disabled="isLoading"
-      >
-        {{ buttontext }}
-      </button>
-    </form>
+      :isLoading="isLoading"
+      @update:isLoading="isLoading = $event"
+    />
   </div>
 </template>
 
@@ -188,32 +69,14 @@ async function handleRegisterSubmit() {
   cursor: pointer;
   opacity: 0.6;
   transition: 0.2s;
-}
 
-.tab.active {
-  opacity: 1;
-  border-bottom: 2px solid var(--red);
-}
+  &:not(.active):disabled {
+    cursor: not-allowed;
+  }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.submit {
-  margin-top: 8px;
-  padding: 12px;
-  border-radius: 8px;
-  border: none;
-  background: var(--red);
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.submit:hover {
-  opacity: 0.9;
+  &.active {
+    opacity: 1;
+    border-bottom: 2px solid var(--red);
+  }
 }
 </style>

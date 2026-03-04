@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import MoviesList from '@/components/widgets/MoviesList/MoviesList.vue'
 import { useMoviesView } from '@/composables/useMoviesView'
+import { MOVIE_CATEGORY } from '@/utils/constants/category'
 
 const { error, filteredMovies, isError, isLoading, titleText } = useMoviesView({
-  category: 'movie',
+  category: MOVIE_CATEGORY,
   title: 'Movies',
 })
 </script>

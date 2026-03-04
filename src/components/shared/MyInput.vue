@@ -1,38 +1,60 @@
 <script setup lang="ts">
-import { useAttrs, useId } from 'vue'
+import { ref, watch, useAttrs, useId } from 'vue'
 
-defineProps<{
-  label: string
+const props = defineProps<{
+  label?: string
+  modelValue?: string
+  error?: string
 }>()
 
-const model = defineModel<string>()
+const emit = defineEmits(['update:modelValue'])
 
 defineOptions({ inheritAttrs: false, name: 'MyInput' })
 
 const id = useId()
 const attrs = useAttrs()
+
+// Local reactive value for standalone usage
+const internalValue = ref(props.modelValue ?? '')
+
+// Watch for parent updates
+watch(
+  () => props.modelValue,
+  (val) => {
+    if (val !== internalValue.value) internalValue.value = val ?? ''
+  },
+)
+
+// Emit changes to parent
+function updateValue(e: Event) {
+  const target = e.target as HTMLInputElement
+  internalValue.value = target.value
+  emit('update:modelValue', target.value)
+}
 </script>
 
 <template>
   <div class="field">
     <label
+      v-if="label"
       :for="id"
       class="label"
+      >{{ label }}</label
     >
-      {{ label }}
-    </label>
 
     <div class="input-wrapper">
       <input
         :id="id"
         class="input"
         v-bind="attrs"
-        v-model="model"
+        :value="internalValue"
+        @input="updateValue"
       />
       <div class="right-icon">
         <slot></slot>
       </div>
     </div>
+    <span class="error">{{ error }}</span>
   </div>
 </template>
 
@@ -42,6 +64,7 @@ const attrs = useAttrs()
   display: flex;
   flex-direction: column;
   gap: 6px;
+  position: relative;
 }
 .label {
   font-size: 14px;
@@ -71,5 +94,12 @@ const attrs = useAttrs()
   cursor: pointer;
   user-select: none;
   opacity: 0.7;
+}
+.error {
+  color: var(--red);
+  position: absolute;
+  top: calc(100% + 5px);
+  right: 0;
+  font-size: 14px;
 }
 </style>
